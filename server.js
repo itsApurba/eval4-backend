@@ -43,7 +43,9 @@ app.get("/cpu", (req, res) => {
     }
     return secNSec / 1000;
   }
-  res.send(cpuPercent);
+  res.json({
+    cpu: cpuPercent,
+  });
 });
 
 app.post("/signup", (req, res) => {
