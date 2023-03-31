@@ -43,7 +43,7 @@ app.get("/cpu", (req, res) => {
     }
     return secNSec / 1000;
   }
-  res.send(`Server is Running...`);
+  res.send(cpuPercent);
 });
 
 app.post("/signup", (req, res) => {
