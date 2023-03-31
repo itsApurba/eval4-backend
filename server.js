@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 
+var startTime = process.hrtime();
+var startUsage = process.cpuUsage();
 
 const { connect } = require("./config/db");
 const { UserModel } = require("./models/User.model");
@@ -17,6 +19,30 @@ app.use(cors());
 const PORT = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
+  res.send(`Server is Running.`);
+});
+app.get("/cpu", (req, res) => {
+  // spin the CPU for 500 milliseconds
+  var now = Date.now();
+  while (Date.now() - now < 500) var elapTime = process.hrtime(startTime);
+  var elapUsage = process.cpuUsage(startUsage);
+
+  var elapTimeMS = secNSec2ms(elapTime);
+  var elapUserMS = secNSec2ms(elapUsage.user);
+  var elapSystMS = secNSec2ms(elapUsage.system);
+  var cpuPercent = Math.round((100 * (elapUserMS + elapSystMS)) / elapTimeMS);
+
+  console.log("elapsed time ms:  ", elapTimeMS);
+  console.log("elapsed user ms:  ", elapUserMS);
+  console.log("elapsed system ms:", elapSystMS);
+  console.log("cpu percent:      ", cpuPercent);
+
+  function secNSec2ms(secNSec) {
+    if (Array.isArray(secNSec)) {
+      return secNSec[0] * 1000 + secNSec[1] / 1000000;
+    }
+    return secNSec / 1000;
+  }
   res.send(`Server is Running...`);
 });
 
