@@ -3,8 +3,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 
-var startTime = process.hrtime();
-var startUsage = process.cpuUsage();
+const startTime = process.hrtime();
+const startUsage = process.cpuUsage();
+const fakeData = require("./mockdata.json");
 
 const { connect } = require("./config/db");
 const { UserModel } = require("./models/User.model");
@@ -20,6 +21,10 @@ const PORT = process.env.PORT || 8080;
 
 app.get("/", (req, res) => {
   res.send(`Server is Running.`);
+});
+app.get("/fakedata", (req, res) => {
+  // console.log(fakeData);
+  res.json(fakeData);
 });
 app.get("/cpu", (req, res) => {
   // spin the CPU for 500 milliseconds
