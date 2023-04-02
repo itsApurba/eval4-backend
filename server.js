@@ -6,6 +6,7 @@ const cors = require("cors");
 const startTime = process.hrtime();
 const startUsage = process.cpuUsage();
 const fakeData = require("./mockdata.json");
+const dashboard = require("./dashboarddata.json");
 
 const { connect } = require("./config/db");
 const { UserModel } = require("./models/User.model");
@@ -25,6 +26,10 @@ app.get("/", (req, res) => {
 app.get("/fakedata", (req, res) => {
   // console.log(fakeData);
   res.json(fakeData);
+});
+app.get("/dashboard", (req, res) => {
+  // console.log(fakeData);
+  res.json(dashboard);
 });
 app.get("/cpu", (req, res) => {
   // spin the CPU for 500 milliseconds
